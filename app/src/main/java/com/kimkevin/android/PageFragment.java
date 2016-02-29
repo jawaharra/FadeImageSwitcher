@@ -11,14 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-/**
- * Some descriptions here
- * <p/>
- * <p/>
- * Created by KimKevin.
- *
- * @since 0.1
- */
+
 public class PageFragment extends Fragment{
     private static final String TAG = PageFragment.class.getSimpleName();
     private static final String ARG_POSITION = "position";

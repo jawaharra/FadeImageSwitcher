@@ -7,7 +7,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import com.kimkevin.fadeimageswitcher.FadeImageSwitcher;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,14 +25,23 @@ public class MainActivity extends AppCompatActivity {
 
     private FadeImageSwitcher mFadeImageSwitcher;
     private ViewPager mViewPager;
+    private ImageView[] mBgImgs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final FrameLayout guideBgImg = (FrameLayout) findViewById(R.id.bg_pan);
-        mFadeImageSwitcher = new FadeImageSwitcher(this, guideBgImg, bgRes);
+        final FrameLayout container = (FrameLayout) findViewById(R.id.bg_pan);
+
+        mBgImgs = new ImageView[bgRes.length];
+        for (int i = 0, li = mBgImgs.length; i < li; i++) {
+            mBgImgs[i] = createImageView();
+            mBgImgs[i].setBackgroundResource(bgRes[i]);
+            container.addView(mBgImgs[i]);
+        }
+
+        mFadeImageSwitcher = new FadeImageSwitcher(this, mBgImgs, bgRes);
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setOffscreenPageLimit(3);
@@ -42,15 +54,28 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                Log.i(TAG, "onPageSelected : " + position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
+
         ViewPagerAdapter mAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
     }
+
+    private ImageView createImageView() {
+        ImageView imageView = new ImageView(this);
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT)
+        );
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        return imageView;
+    }
+
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
         public final int GUIDE_COUNT = bgRes.length;

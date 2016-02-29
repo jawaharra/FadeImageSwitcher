@@ -1,55 +1,56 @@
 package com.kimkevin.fadeimageswitcher;
 
 /**
- * Some descriptions here
- * <p/>
- * <p/>
+ *
+ * FadeImageSwitcher which displays numerous background images
+ * with fade-in and fade-out in {@link android.support.v4.view.ViewPager}
+ *
  * Created by KimKevin.
  *
- * @since 0.1
  */
 
 import android.content.Context;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 public class FadeImageSwitcher {
     private static final String TAG = FadeImageSwitcher.class.getSimpleName();
 
     private Context mContext;
-
-    private ImageView[] mBgImgs;
+    private ImageView[] mImageViews;
     private int[] mImgRes;
     private int mCurPos;
 
-    public FadeImageSwitcher(Context context, FrameLayout container, int[] imgRes) {
+    /**
+     * Create a {@link FadeImageSwitcher} with ImageView Array and Image Resources
+     *
+     * @param context
+     * @param imageViews ImageViews that are added to container for background
+     * @param imgRes Image resources for background
+     */
+    public FadeImageSwitcher(Context context, ImageView[] imageViews, int[] imgRes) {
         this.mContext = context;
+        this.mImageViews = imageViews;
         this.mImgRes = imgRes;
-
-        mBgImgs = new ImageView[imgRes.length];
-        for (int i = 0, li = mBgImgs.length; i < li; i++) {
-            mBgImgs[i] = createImageView();
-            mBgImgs[i].setBackgroundResource(imgRes[i]);
-            container.addView(mBgImgs[i]);
-        }
 
         mCurPos = 0;
 
         showImage(mCurPos);
     }
 
+    /**
+     * Show background image
+     * @param pos position in {@link android.support.v4.view.ViewPager}
+     */
     public void showImage(int pos) {
-        for (int i = 0, li = mBgImgs.length; i < li; i++) {
-            mBgImgs[i].setBackgroundResource(mImgRes[i]);
+        for (int i = 0, li = mImageViews.length; i < li; i++) {
+            mImageViews[i].setBackgroundResource(mImgRes[i]);
             if (i != pos) {
-                mBgImgs[i].setVisibility(View.INVISIBLE);
+                mImageViews[i].setVisibility(View.INVISIBLE);
             } else {
-                mBgImgs[i].setVisibility(View.VISIBLE);
+                mImageViews[i].setVisibility(View.VISIBLE);
             }
         }
     }
@@ -64,28 +65,14 @@ public class FadeImageSwitcher {
         }
 
         if (mCurPos > pos) {
-            /**
-             * Show Prev Image
-             */
-            mBgImgs[pos].setVisibility(View.VISIBLE);
-            mBgImgs[mCurPos].setAlpha(alpha);
+            // Show Prev Image
+            mImageViews[pos].setVisibility(View.VISIBLE);
+            mImageViews[mCurPos].setAlpha(alpha);
         } else {
-            /**
-             * Show Next Image
-             */
-            mBgImgs[pos + 1].setVisibility(View.VISIBLE);
-            mBgImgs[pos + 1].setAlpha(alpha);
+            // Show Next Image
+            mImageViews[pos + 1].setVisibility(View.VISIBLE);
+            mImageViews[pos + 1].setAlpha(alpha);
         }
-    }
-
-    private ImageView createImageView() {
-        ImageView imageView = new ImageView(mContext);
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT)
-        );
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        return imageView;
     }
 
     private int getScreenWidth() {
