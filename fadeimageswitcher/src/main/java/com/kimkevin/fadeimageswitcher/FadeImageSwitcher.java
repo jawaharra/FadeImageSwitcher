@@ -10,69 +10,81 @@ package com.kimkevin.fadeimageswitcher;
  */
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
 
 public class FadeImageSwitcher {
     private static final String TAG = FadeImageSwitcher.class.getSimpleName();
 
     private Context mContext;
     private ImageView[] mImageViews;
-    private int[] mImgRes;
     private int mCurPos;
 
     /**
      * Create a {@link FadeImageSwitcher} with ImageView Array and Image Resources
-     *
      * @param context
-     * @param imageViews ImageViews that are added to container for background
-     * @param imgRes Image resources for background
+     * @param imageViews ImageViews of background that are added to container layout
      */
-    public FadeImageSwitcher(Context context, ImageView[] imageViews, int[] imgRes) {
+    public FadeImageSwitcher(Context context, ArrayList<ImageView> imageViews) {
+        this(context, imageViews.toArray(new ImageView[imageViews.size()]));
+    }
+
+    public FadeImageSwitcher(Context context, ImageView[] imageViews) {
         this.mContext = context;
         this.mImageViews = imageViews;
-        this.mImgRes = imgRes;
 
         mCurPos = 0;
 
-        showImage(mCurPos);
+        mImageViews[0].setVisibility(View.VISIBLE);
+
+        for (int i = 1, li = mImageViews.length; i < li; i++) {
+            mImageViews[i].setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
-     * Show background image
-     * @param pos position in {@link android.support.v4.view.ViewPager}
+     * Dispatch position and positionOffSetPixcels from onPageScrolled of {@link ViewPager.OnPageChangeListener}
+     * to imageviews.
      */
-    public void showImage(int pos) {
-        for (int i = 0, li = mImageViews.length; i < li; i++) {
-            mImageViews[i].setBackgroundResource(mImgRes[i]);
-            if (i != pos) {
-                mImageViews[i].setVisibility(View.INVISIBLE);
+    public void onPageScrolled(int position, int positionOffsetPixels) {
+        float alpha = (float) positionOffsetPixels / getScreenWidth();
+
+        /**
+         * positionOffSetPixels is zero(0) when it is fully Idle
+         */
+        if (positionOffsetPixels == 0) {
+            mCurPos = position;
+
+            if (mCurPos > 0) {
+                invisibleImage(mCurPos - 1);
+            }
+
+            if (mCurPos < mImageViews.length - 1) {
+                invisibleImage(mCurPos + 1);
+            }
+        } else {
+            if (mCurPos > position) {
+                // Set visible and alpha to previous ImageView
+                final int prevPos = position;
+                mImageViews[prevPos].setVisibility(View.VISIBLE);
+                mImageViews[mCurPos].setAlpha(alpha);
             } else {
-                mImageViews[i].setVisibility(View.VISIBLE);
+                // Set visible and alpha to next ImageView
+                final int nextPos = position + 1;
+                mImageViews[nextPos].setVisibility(View.VISIBLE);
+                mImageViews[nextPos].setAlpha(alpha);
             }
         }
     }
 
-    public void showImage(int pos, int positionOffsetPixels) {
-        float alpha = (float) positionOffsetPixels / getScreenWidth();
-
-        if (positionOffsetPixels == 0) {
-            mCurPos = pos;
-            showImage(mCurPos);
-            return;
-        }
-
-        if (mCurPos > pos) {
-            // Show Prev Image
-            mImageViews[pos].setVisibility(View.VISIBLE);
-            mImageViews[mCurPos].setAlpha(alpha);
-        } else {
-            // Show Next Image
-            mImageViews[pos + 1].setVisibility(View.VISIBLE);
-            mImageViews[pos + 1].setAlpha(alpha);
-        }
+    private void invisibleImage(int position) {
+        mImageViews[position].setVisibility(View.INVISIBLE);
+        mImageViews[position].setAlpha(1.0f);
     }
 
     private int getScreenWidth() {

@@ -1,5 +1,6 @@
 package com.kimkevin.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,20 +42,18 @@ public class MainActivity extends AppCompatActivity {
             container.addView(mBgImgs[i]);
         }
 
-        mFadeImageSwitcher = new FadeImageSwitcher(this, mBgImgs, bgRes);
+        mFadeImageSwitcher = new FadeImageSwitcher(this, mBgImgs);
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i(TAG, "onPageScrolled : " + position + " , " + positionOffsetPixels);
-                mFadeImageSwitcher.showImage(position, positionOffsetPixels);
+                mFadeImageSwitcher.onPageScrolled(position, positionOffsetPixels);
             }
 
             @Override
             public void onPageSelected(int position) {
-                Log.i(TAG, "onPageSelected : " + position);
             }
 
             @Override
@@ -93,5 +92,10 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             return PageFragment.newInstance(position);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

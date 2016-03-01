@@ -14,14 +14,15 @@ import android.widget.TextView;
 
 public class PageFragment extends Fragment{
     private static final String TAG = PageFragment.class.getSimpleName();
-    private static final String ARG_POSITION = "position";
+
+    private static final String POSITION_KEY = "position";
 
     private int position;
 
     public static PageFragment newInstance(int position) {
         PageFragment fragment = new PageFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_POSITION, position);
+        args.putInt(POSITION_KEY, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -30,7 +31,7 @@ public class PageFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        position = getArguments().getInt(ARG_POSITION, 0);
+        position = getArguments().getInt(POSITION_KEY, 0);
     }
 
     @Override
