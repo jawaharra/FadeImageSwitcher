@@ -1,3 +1,3 @@
 # FadeImageSwitcher
 
-![](https://github.com/kimkevin/FadeImageSwitcher/blob/master/samples/demo1.gif)
+![](https://github.com/kimkevin/FadeImageSwitcher/blob/master/samples/demo.gif)
