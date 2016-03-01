@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         mBgImgs = new ImageView[bgRes.length];
         for (int i = 0, li = mBgImgs.length; i < li; i++) {
             mBgImgs[i] = createImageView();
-            mBgImgs[i].setBackgroundResource(bgRes[i]);
+            mBgImgs[i].setImageResource(bgRes[i]);
             container.addView(mBgImgs[i]);
         }
 
