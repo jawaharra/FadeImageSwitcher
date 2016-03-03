@@ -11,6 +11,9 @@ FadeImageSwitcher is to change background images with fade-in and fade-out for V
 
 ```java
   yourImageViews = new ImageView[bgRes.length];
+  
+  ... set background image to each ImageView
+  
   fadeImageSwitcher = new FadeImageSwitcher(this, yourImageViews);
 ```
 
