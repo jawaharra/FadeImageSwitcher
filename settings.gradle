@@ -1,1 +1,1 @@
-include ':app', ':fadeimageswitcher'
+include ':app', ':library', ':sample'
