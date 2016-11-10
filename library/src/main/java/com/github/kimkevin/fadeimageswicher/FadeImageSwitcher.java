@@ -25,7 +25,7 @@ public class FadeImageSwitcher {
 
   /**
    * Create a {@link FadeImageSwitcher} with ImageView Array and Image Resources
-   * @param context
+   * @param context Context from Application
    * @param imageViews ImageViews of background that are added to container layout
    */
   public FadeImageSwitcher(Context context, ArrayList<ImageView> imageViews) {
@@ -46,8 +46,12 @@ public class FadeImageSwitcher {
   }
 
   /**
+   *
    * Dispatch position and positionOffSetPixcels from onPageScrolled of {@link ViewPager.OnPageChangeListener}
    * to imageviews.
+   *
+   * @param position Current position in ViewPager
+   * @param positionOffsetPixels Offset pixels from prev position to next position
    */
   public void onPageScrolled(int position, int positionOffsetPixels) {
     float alpha = (float) positionOffsetPixels / getScreenWidth();
