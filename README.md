@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.github.kimkevin:cachepot:1.0.0'
+  compile 'com.github.kimkevin:fadeimageswitcher:1.0.0'
 }
 ```
 
@@ -23,7 +23,7 @@ Maven:
 ```bash
 <dependency>
   <groupId>com.github.kimkevin</groupId>
-  <artifactId>cachepot</artifactId>
+  <artifactId>fadeimageswitcher</artifactId>
   <version>1.0.0</version>
 </dependency>
 ```
