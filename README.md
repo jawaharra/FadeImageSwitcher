@@ -51,5 +51,5 @@ Maven:
 ```
 
 ## License
-Copyright (c) 2013 "KimKevin" Yongjun Kim
+Copyright (c) 2016 "KimKevin" Yongjun Kim
 Licensed under the MIT license.
